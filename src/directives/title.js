@@ -49,7 +49,14 @@ export default {
   // componentUpdated：指令所在组件的 VNode 及其子 VNode 全部更新后调用；
   // unbind：只调用一次，指令与元素解绑时调用，在这里可以移除绑定的事件和其他数据；
   bind(el, binding, vnode) {
+
+    // el：指令所绑定的元素，可以用来操作 DOM ；
+    // binding：一个对象，binding.value 表示指令的绑定值，如 v-title="'我是标题'" 中，绑定值为'我是标题'；
+    // vnode：Vue 编译生成的虚拟节点；
+    // oldVnode：上一个虚拟节点，仅在 update 和 componentUpdated 钩子中可用。
+
     // 使用 const 声明一个只读的常量，其值是需要监听的事件类型列表
+
     const events = ['mouseenter', 'mouseleave', 'click']
     // 声明一个处理器，以根据不同的事件类型传不同的参数
     const handler = (event) => {

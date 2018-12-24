@@ -9,12 +9,12 @@
           <span class="icon-bar"></span>
         </button>
 
-        <a href="/" class="navbar-brand">
+        <router-link to="/" class="navbar-brand">
           <!-- {{ logo.title }}：Vue.js 使用 Mustache 语法 （双大括号）进行数据绑定，这里的 logo 是数据对象 data 里的 logo； -->
           <span class="title">{{ logo.title }}</span>
           <!-- src 和 alt 都是 HTML 特性，不能使用 Mustache 语法，而要使用 v-bind 指令，:src 是 v-bind:src 的缩写 -->
           <img :src="logo.src" :alt="logo.title">
-        </a>
+        </router-link>
 
       </div>
       <!-- 'collapse' 和 'navbar-collapse' 是默认要应用的类名，只有当 showCollapsedNav 返回 true 时才添加 'in' 这个类名 -->
@@ -26,13 +26,24 @@
             <a href="#" @click="changeNavIndex(index)">{{ item }}</a>
           </li>
         </ul>
+        <!-- 入口组件 -->
+        <div class="navbar-right">
+          <TheEntry/>
+        </div>
       </div>
     </div>
   </div>
 </template>
 <script>
+// 引入 TheEntry.vue 的默认值
+import TheEntry from '@/components/layouts/TheEntry'
+
 export default {
   name: 'TheHeader',
+  // 添加 components 选项，并注册 TheEntry
+  components: {
+    TheEntry
+  },
   data() {
     return {
       logo: {
