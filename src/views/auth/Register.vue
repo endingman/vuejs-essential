@@ -91,7 +91,7 @@ export default {
           password: this.password,
           avatar: `https://api.adorable.io/avatars/200/${this.username}.png`
         }
-        const localUser = ls.getItem('user')
+        const localUser = this.$store.state.user
 
         if (localUser) {
           if (localUser.name === user.name) {
@@ -105,7 +105,8 @@ export default {
       }
     },
     login(user) {
-      ls.setItem('user', user)
+      // 为 => 分发 login 事件，以保存用户信息和登录
+      this.$store.dispatch('login', user)
       this.showMsg('注册成功', 'success')
     },
     showMsg(msg, type = 'warning') {
