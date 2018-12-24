@@ -72,6 +72,10 @@ const actions = {//不在这里直接更改状态，提交的是前面的mutatio
     <!-- 含参数和查询参数的对象 -->
     <router-link :to="{ params: { id: 1 }, query: { page: 1 } }">Home</router-link>
      */
+  },
+  logout({ commit }) {
+    commit('UPDATE_AUTH', false)
+    router.push({ name: 'Home', params: { logout: true } })
   }
 }
 

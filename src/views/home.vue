@@ -31,6 +31,8 @@ export default {
      **/
     const fromName = from.name
 
+    const logout = to.params.logout
+
     next(vm => {
       // 官网原话：虽然没有完全遵循 MVVM 模型，但是 Vue 的设计也受到了它的启发。因此在文档中经常会使用 vm (ViewModel 的缩写) 这个变量名表示 Vue 实例。
 
@@ -43,8 +45,22 @@ export default {
             vm.showMsg('注册成功')
             break
         }
+      }else if(logout){
+         vm.showMsg('操作成功')
       }
     })
+  },
+  computed: {
+    auth() {
+      return this.$store.state.auth
+    }
+  },
+  watch: {
+    auth(value) {
+      if (!value) {
+        this.showMsg('操作成功')
+      }
+    }
   },
   methods: {
     showMsg(msg, type = 'success') {
