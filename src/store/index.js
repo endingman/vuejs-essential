@@ -3,6 +3,9 @@ import Vuex from 'vuex'
 import ls from '../utils/localStorage'
 import router from '../router'
 
+// 引入 actions.js 的所有导出
+import * as moreActions from './actions'
+
 Vue.use(Vuex)
 
 // store（仓库）实例，其配置项说明：
@@ -27,6 +30,11 @@ const mutations = {//这里更改状态，
   UPDATE_AUTH(state, auth) {
     state.auth = auth
     ls.setItem('auth', auth)
+  },
+  // 更改所有文章的事件类型
+  UPDATE_ARTICLES(state, articles) {
+    state.articles = articles
+    ls.setItem('articles', articles)
   }
 }
 
@@ -87,7 +95,9 @@ const actions = {//不在这里直接更改状态，提交的是前面的mutatio
     }
 
     commit('UPDATE_USER', user)
-  }
+  },
+    // 使用对象展开运算符混入 moreActions
+  ...moreActions
 }
 
 const store = new Vuex.Store({

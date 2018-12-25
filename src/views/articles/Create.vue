@@ -7,14 +7,14 @@
           <hr>
           <div data-validator-form>
             <div class="form-group">
-              <input v-validator.required="{ title: '标题' }" type="text" class="form-control" placeholder="请填写标题">
+              <input v-model.trim="title" v-validator:blur.required="{ title: '标题' }" type="text" class="form-control" placeholder="请填写标题" @input="saveTitle">
             </div>
             <div class="form-group">
              <textarea id="editor"></textarea>
             </div>
             <br>
             <div class="form-group">
-              <button class="btn btn-primary" type="submit">发 布</button>
+              <button class="btn btn-primary" type="submit" @click="post">发 布</button>
             </div>
           </div>
         </div>
@@ -25,36 +25,75 @@
 
 <script>
 import SimpleMDE from 'simplemde'
-
-// 引入 highlight.js 的默认值
 import hljs from 'highlight.js'
+import ls from '@/utils/localStorage'
 
-// 添加全局变量
 window.hljs = hljs
 
 export default {
   name: 'Create',
+  data() {
+    return {
+      title: '', // 文章标题
+      content: '' // 文章内容
+    }
+  },
   mounted() {
-    // 创建一个 SimpleMDE 的实例
     const simplemde = new SimpleMDE({
-      // 要绑定的 textarea 元素
       element: document.querySelector('#editor'),
-      // 占位符
       placeholder: '请使用 Markdown 格式书写 ;-)，代码片段黏贴时请注意使用高亮语法。',
-      // 禁用拼写检查
       spellChecker: false,
-      // 不用自动下载 FontAwesome，因为我们刚好有使用 FontAwesome，所以不用自动下载
       autoDownloadFontAwesome: false,
-      // 启用自动保存，uniqueId 是一个用于区别于其他站点的标识
       autosave: {
         enabled: true,
         uniqueId: 'vuejs-essential'
       },
-      // 启用代码高亮，需要引入 highlight.js
       renderingConfig: {
         codeSyntaxHighlighting: true
       }
     })
+
+    simplemde.codemirror.on('change', () => {
+      this.content = simplemde.value()
+    })
+
+    this.simplemde = simplemde
+    this.fillContent()
+  },
+  methods: {
+    saveTitle() {
+      ls.setItem('smde_title', this.title)
+    },
+    fillContent() {
+      const simplemde = this.simplemde
+      const title = ls.getItem('smde_title')
+
+      if (title !== null) {
+        this.title = title
+      }
+
+      this.content = simplemde.value()
+    },
+    post() {
+      const title = this.title
+      const content = this.content
+
+      if (title !== '' && content.trim() !== '') {
+        const article = {
+          title,
+          content
+        }
+
+        this.$store.dispatch('post', { article })
+        this.clearData()
+      }
+    },
+    clearData() {
+      this.title = ''
+      ls.removeItem('smde_title')
+      this.simplemde.value('')
+      this.simplemde.clearAutosavedValue()
+    }
   }
 }
 </script>
