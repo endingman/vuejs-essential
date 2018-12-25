@@ -2,6 +2,20 @@
   <div class="navbar-right">
     <!-- v-if 是一个条件渲染指令，它会根据条件的改变渲染不同的元素，可以在它后面跟 v-else-if 和 v-else -->
     <ul v-if="auth" class="nav navbar-nav github-login">
+      <!-- 创作文章 -->
+      <li>
+        <a v-dropdown href="javascript:;">
+          <i class="fa fa-plus text-md"></i>
+        </a>
+        <ul class="dropdown-menu">
+          <li>
+            <router-link to="/articles/create">
+              <i class="fa fa-paint-brush text-md"></i>
+              创作文章
+            </router-link>
+          </li>
+        </ul>
+      </li>
       <li>
         <a v-dropdown href="javascript:;">
           <span v-if="user">
