@@ -1,30 +1,15 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
-Vue.use(Router)
+// 引入 ./routes.js 的默认值
+import routes from './routes'
 
-const routes = [
-  {
-    path: '/auth/register',
-    name: 'Register',
-    component: () => import('@/views/auth/Register')//实现路由懒加载，即当路由被访问时才加载对应的组件
-  },
-   // 首页路由配置
-  {
-    path: '/',
-    name: 'Home',
-    component: () => import('@/views/Home')
-  },
-  // 其他未配置的路由都跳转到首页
-  {
-    path: '*',
-    // 重定向
-    redirect: '/'
-  }
-]
+Vue.use(Router)
 
 const router = new Router({
   mode: 'history',
+  // linkExactActiveClass 的值是一个类名，用来添加到与当前路由对应的 <router-link> 上，以显示当前精确激活的 <router-link>，其默认值是 'router-link-exact-active'，我们这里改为 'active' 以利用 Bootstrap 的激活样式
+  linkExactActiveClass: 'active',
   routes
 })
 

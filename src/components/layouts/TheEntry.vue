@@ -12,14 +12,20 @@
           <span class="caret"></span>
         </a>
         <ul class="dropdown-menu">
+          <li>
+            <router-link to="/users/1/edit">
+              <i class="fa fa-cog text-md i-middle"></i>
+              编辑资料
+            </router-link>
+          </li>
           <li><a href="javascript:;" @click="logout"><i class="fa fa-sign-out text-md"></i>退出</a></li>
         </ul>
       </li>
     </ul>
     <div v-else class="nav navbar-nav github-login">
-      <a href="#" class="btn btn-default login-btn">
+      <router-link to="/auth/login" class="btn btn-default login-btn">
         <i class="fa fa-user"></i> 登 录
-      </a>
+      </router-link>
       <router-link to="/auth/register" class="btn btn-default login-btn">
         <i class="fa fa-user-plus"></i> 注 册
       </router-link>
