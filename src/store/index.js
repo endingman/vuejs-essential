@@ -76,6 +76,17 @@ const actions = {//不在这里直接更改状态，提交的是前面的mutatio
   logout({ commit }) {
     commit('UPDATE_AUTH', false)
     router.push({ name: 'Home', params: { logout: true } })
+  },
+  // 更新个人信息
+  updateUser({ state, commit }, user) {
+    const stateUser = state.user
+
+    if (stateUser && typeof stateUser === 'object') {
+      // 合并新旧个人信息，等价于 user = Object.assign({}, stateUser, user)
+      user = { ...stateUser, ...user }
+    }
+
+    commit('UPDATE_USER', user)
   }
 }
 
