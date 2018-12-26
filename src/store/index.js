@@ -100,10 +100,33 @@ const actions = {//不在这里直接更改状态，提交的是前面的mutatio
   ...moreActions
 }
 
+/**
+ * 当需要从仓库的 state 中派生出一些状态的时候，我们就可以定义 Getter，你可以认为它是仓库的计算属性，我们可以通过 store.getters.getArticleById 的形式来访问这些值。Getter 的第一个参数是 state，通过它可以访问仓库的状态，它的第二个参数是 getters，通过它可以访问仓库的派生状态。需要传递用户参数时，可以让 Getter 返回一个函数。
+ */
+const getters = {
+  // 第一参数是 state，因为要传 id，所以这里返回一个函数
+  getArticleById: (state) => (id) => {
+    // 从仓库获取所有文章
+    let articles = state.articles
+
+    // 所有文章是一个数组时
+    if (Array.isArray(articles)) {
+      // 传进来的 id 和文章的 articleId 相同时，返回这些文章
+      articles = articles.filter(article => parseInt(id) === parseInt(article.articleId))
+      // 根据文章长度，返回文章或者 null
+      return articles.length ? articles[0] : null
+    } else {
+      // 返回 null
+      return null
+    }
+  }
+}
+
 const store = new Vuex.Store({
   state,
   mutations,
-  actions
+  actions,
+  getters
 })
 
 export default store
