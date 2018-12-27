@@ -23,6 +23,8 @@ import VueSweetalert2 from './plugins/vue-sweetalert2'
 // 引入消息插件
 import Message from './plugins/message'
 
+import './filters'
+
 // 使用插件
 Vue.use(VueSweetalert2)
 
